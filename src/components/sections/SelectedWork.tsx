@@ -128,7 +128,8 @@ const SelectedWork = () => {
 
         {filtered.length === 0 && (
           <div className="text-center py-16">
-            <p className="font-body text-muted-foreground text-lg">Aucun projet dans cette catégorie pour le moment.</p>
+            <p className="font-heading text-2xl text-foreground mb-2">Selected projects coming soon</p>
+            <p className="font-body text-muted-foreground text-lg">We're preparing new work for this category.</p>
           </div>
         )}
       </div>
