@@ -7,8 +7,11 @@ const FinalCTA = () => {
         <h2 className="font-heading text-4xl md:text-[56px] font-semibold text-foreground leading-tight mb-6">
           Ready to build your brand?
         </h2>
-        <p className="font-body text-lg md:text-xl text-muted-foreground mb-10">
+        <p className="font-body text-lg md:text-xl text-muted-foreground mb-4">
           Let's create something extraordinary together
+        </p>
+        <p className="font-accent text-sm text-accent tracking-wider mb-10">
+          Limited availability this month
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link

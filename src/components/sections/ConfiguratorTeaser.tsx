@@ -138,6 +138,15 @@ const ConfiguratorTeaser = () => {
 
   return (
     <section className="py-20 md:py-32 bg-card">
+      {/* Transition heading */}
+      <div className="max-w-4xl mx-auto px-6 md:px-12 text-center mb-16 fade-in-up">
+        <h2 className="font-heading text-3xl md:text-5xl font-semibold text-foreground mb-4">
+          Want to see your brand in action?
+        </h2>
+        <p className="font-body text-lg text-muted-foreground">
+          Preview your logo on real packaging
+        </p>
+      </div>
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
         {/* Left: Canvas preview */}
         <div className="fade-in-up">
