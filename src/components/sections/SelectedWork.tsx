@@ -3,29 +3,27 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import merakiImg from '@/assets/project-meraki.jpg';
 import vesperaImg from '@/assets/project-vespera.jpg';
 import oliviaImg from '@/assets/project-olivia.jpg';
+import filterEtiquettesImg from '@/assets/filter-etiquettes.jpg';
+import filterTagsImg from '@/assets/filter-tags.jpg';
+import filterKraftImg from '@/assets/filter-kraft.jpg';
+import filterFilsImg from '@/assets/filter-fils.jpg';
+import filterPackagingImg from '@/assets/filter-packaging.jpg';
 
-type Category = 'all' | 'etiquettes' | 'tags-kraft' | 'fils' | 'packaging';
-type SubCategory = 'coton' | 'cartonnees' | 'imprimees' | null;
+type Category = 'all' | 'etiquettes' | 'tags' | 'kraft' | 'fils' | 'packaging';
 
-const categories: { id: Category; label: string }[] = [
+const categories: { id: Category; label: string; image?: string }[] = [
   { id: 'all', label: 'Tous' },
-  { id: 'etiquettes', label: 'Étiquettes' },
-  { id: 'tags-kraft', label: 'Tags Kraft' },
-  { id: 'fils', label: 'Fils personnalisés' },
-  { id: 'packaging', label: 'Packaging' },
-];
-
-const subCategories: { id: SubCategory; label: string }[] = [
-  { id: 'coton', label: 'Étiquettes en Coton' },
-  { id: 'cartonnees', label: 'Étiquettes Cartonnées' },
-  { id: 'imprimees', label: 'Étiquettes Imprimées' },
+  { id: 'etiquettes', label: 'Étiquettes', image: filterEtiquettesImg },
+  { id: 'tags', label: 'Tags', image: filterTagsImg },
+  { id: 'kraft', label: 'Kraft', image: filterKraftImg },
+  { id: 'fils', label: 'Fils personnalisés', image: filterFilsImg },
+  { id: 'packaging', label: 'Packaging', image: filterPackagingImg },
 ];
 
 const projects = [
   {
     title: 'MERAKI',
     category: 'etiquettes' as Category,
-    subCategory: 'imprimees' as SubCategory,
     displayCategory: 'Cosmetics Branding',
     image: merakiImg,
     description: 'A complete brand identity for a luxury skincare line. We crafted everything from the minimal packaging to the brand story, creating a cohesive visual language that speaks to conscious beauty.',
@@ -35,7 +33,6 @@ const projects = [
   {
     title: 'VESPERA',
     category: 'packaging' as Category,
-    subCategory: null,
     displayCategory: 'Candle Brand Identity',
     image: vesperaImg,
     description: 'Luxury candle brand identity and packaging design. We designed ceramic vessels, kraft labels, and a warm visual identity that evokes comfort and sophistication.',
@@ -45,7 +42,6 @@ const projects = [
   {
     title: 'Olivia',
     category: 'etiquettes' as Category,
-    subCategory: 'coton' as SubCategory,
     displayCategory: 'Fashion Labels',
     image: oliviaImg,
     description: 'Elegant clothing tags and fashion branding for a premium fashion house. Minimalist design with luxurious materials that elevate the unboxing experience.',
@@ -57,20 +53,10 @@ const projects = [
 const SelectedWork = () => {
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
   const [activeCategory, setActiveCategory] = useState<Category>('all');
-  const [activeSubCategory, setActiveSubCategory] = useState<SubCategory>(null);
-
-  const handleCategoryClick = (cat: Category) => {
-    setActiveCategory(cat);
-    setActiveSubCategory(null);
-  };
 
   const filtered = projects.filter((p) => {
     if (activeCategory === 'all') return true;
-    if (p.category !== activeCategory) return false;
-    if (activeCategory === 'etiquettes' && activeSubCategory) {
-      return p.subCategory === activeSubCategory;
-    }
-    return true;
+    return p.category === activeCategory;
   });
 
   return (
@@ -82,54 +68,36 @@ const SelectedWork = () => {
           <p className="font-body text-muted-foreground text-lg">Brands we've brought to life</p>
         </div>
 
-        {/* Category Filters */}
-        <div className="flex flex-wrap justify-center gap-3 mb-6 fade-in-up" style={{ transitionDelay: '50ms' }}>
+        {/* Visual Filter Cards */}
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-12 fade-in-up" style={{ transitionDelay: '50ms' }}>
           {categories.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => handleCategoryClick(cat.id)}
-              className={`font-body text-sm tracking-wider px-5 py-2 rounded-full transition-all duration-300 ${
-                activeCategory === cat.id
-                  ? 'bg-accent text-accent-foreground'
-                  : 'bg-muted text-muted-foreground hover:bg-accent/20 hover:text-foreground'
+              onClick={() => setActiveCategory(cat.id)}
+              className={`group flex flex-col items-center gap-2 transition-all duration-300 ${
+                activeCategory === cat.id ? 'scale-105' : 'opacity-70 hover:opacity-100 hover:scale-105'
               }`}
             >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Sub-category filters for Étiquettes */}
-        <div
-          className="flex flex-wrap justify-center gap-2 mb-12 transition-all duration-500"
-          style={{
-            opacity: activeCategory === 'etiquettes' ? 1 : 0,
-            maxHeight: activeCategory === 'etiquettes' ? '60px' : '0px',
-            overflow: 'hidden',
-            marginBottom: activeCategory === 'etiquettes' ? '3rem' : '0',
-          }}
-        >
-          <button
-            onClick={() => setActiveSubCategory(null)}
-            className={`font-body text-xs tracking-wider px-4 py-1.5 rounded-full transition-all duration-300 ${
-              activeSubCategory === null
-                ? 'bg-accent/60 text-accent-foreground'
-                : 'bg-muted/60 text-muted-foreground hover:bg-accent/15'
-            }`}
-          >
-            Toutes
-          </button>
-          {subCategories.map((sub) => (
-            <button
-              key={sub.id}
-              onClick={() => setActiveSubCategory(sub.id)}
-              className={`font-body text-xs tracking-wider px-4 py-1.5 rounded-full transition-all duration-300 ${
-                activeSubCategory === sub.id
-                  ? 'bg-accent/60 text-accent-foreground'
-                  : 'bg-muted/60 text-muted-foreground hover:bg-accent/15'
-              }`}
-            >
-              {sub.label}
+              {cat.image ? (
+                <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 transition-all duration-300 shadow-sm ${
+                  activeCategory === cat.id ? 'border-accent shadow-md' : 'border-border/40 group-hover:border-accent/50'
+                }`}>
+                  <img src={cat.image} alt={cat.label} className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center border-2 transition-all duration-300 shadow-sm ${
+                  activeCategory === cat.id
+                    ? 'border-accent bg-accent/15 shadow-md'
+                    : 'border-border/40 bg-muted group-hover:border-accent/50'
+                }`}>
+                  <span className="font-heading text-lg text-foreground">✦</span>
+                </div>
+              )}
+              <span className={`font-body text-xs md:text-sm tracking-wider transition-colors duration-300 ${
+                activeCategory === cat.id ? 'text-foreground font-medium' : 'text-muted-foreground'
+              }`}>
+                {cat.label}
+              </span>
             </button>
           ))}
         </div>
